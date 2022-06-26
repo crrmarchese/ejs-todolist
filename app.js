@@ -13,6 +13,7 @@ const app = express();
 
 // Set empty variable for user input value
 let items = ["Buy Food", "Cook Food", "Eat Food"];
+let workItems = [];
 
 // Use ejs as the app's view engine
 app.set('view engine', 'ejs');
@@ -23,6 +24,9 @@ const PORT = process.env.PORT || 8080;
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 //app.use(express.json());
+
+// code if you have a public folder with css styles
+app.use(express.static(__dirname + "/public"));
 
 // ROUTER
 // The below points our server to a series of "route" files.
@@ -43,17 +47,32 @@ app.get("/", function(req,res) {
   let day = today.toLocaleDateString("en-US", options);
 
   // From EJS documentation res.render method, ejs filename with key/value pair
-  res.render("list", {kindOfDay: day, newListItems: items});
+  res.render("list", {listTitle: day, newListItems: items});
 
 });
 
 // Get user input from input form (web page) and pass to server
 app.post("/", function(req, res) {
   let item = req.body.newItem;
-  // Add the new item from the user input into an array
-  items.push(item);
-  res.redirect("/");
+
+  // Logic to determine which list the item should be pushed to
+  if (req.body.list === "Work") {
+    workItems.push(item);
+    res.redirect("/work");
+  } else {
+    // Add the new item from the user input into an array
+    items.push(item);
+    res.redirect("/");
+  }
 });
+
+
+// Second route for work list
+app.get("/work", function(req, res) {
+  res.render("list", {listTitle: "Work List", newListItems: workItems});
+});
+
+
 
 // LISTENER
 // The below code effectively "starts" our server

@@ -1,34 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>To Do List</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-</head>
-<body>
+<%- include('header'); -%>
    <div class="container px-4 py-5">
-      <h1><%=kindOfDay %></h1> 
-      <ul>
-        <!-- <li>Buy Food</li>
-        <li>Cook Food</li>
-        <li>Eat Food</li> -->
-        <!--Pass the data back from the input form to server back to web page-->
-        <% for (var i=0; i < newListItems.length; i++) { %>
-          <li> <%= newListItems[i] %> </li>
-        <% } %>
-      </ul>
-      <form class="row g-3" action="/" method="post">
-         <div class="col-auto">
-            <input class="form-control" name="newItem" type="text" />
-         </div>
-       <div class="col-auto">
-         <button class="btn btn-primary" type="submit" name="button">Add</button>
-       </div> 
-      </form>
+      <h1 class="box" id="heading"><%=listTitle %></h1> 
+      <div class="box">
+         <!--Pass the data back from the input form to server back to web page-->
+         <% for (var i=0; i < newListItems.length; i++) { %>
+            <div class="item">
+              <input type="checkbox">
+                <p> <%= newListItems[i] %></p>
+            </div>
+          <% } %>
 
+          <form class="row g-3 item" action="/" method="post">
+            <div class="col-auto">
+               <input class="form-control" name="newItem" type="text" placeholder="New Item" autocomplete="off" />
+            </div>
+          <div class="col-auto">
+            <button class="button" type="submit" name="list" value=<%=listTitle %>>+</button>
+          </div> 
+         </form>
+      </div>
    </div>
-   
-</body>
-</html>
+<%- include('footer'); -%>
